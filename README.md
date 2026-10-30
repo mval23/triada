@@ -1,36 +1,52 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Triada
 
-## Getting Started
+App para el celular de Triada cookies: stock de ingredientes, lista de compras, recetas, pedidos y quién debe.
 
-First, run the development server:
+Hecha con Next.js (se instala en el celular como app), Supabase (datos y login) y Vercel (publicación).
+
+## Qué hace
+
+- **Stock:** cantidad y mínimo de cada ingrediente, con aviso de Falta / Poco / Bien.
+- **Lista de compras:** se calcula con los mínimos y con lo que piden los pedidos pendientes según las recetas. "Ya compré" lo suma al stock y la lista se puede compartir por WhatsApp.
+- **Recetas:** ingredientes por tanda, preparación, precio y rendimiento. Muestra si el stock alcanza, y "Registrar horneada" descuenta lo usado.
+- **Pedidos:** pendientes y entregados por día, con abonos y pagos.
+- **Quién debe:** junta los pedidos entregados sin pagar y las deudas anotadas a mano, agrupados por persona.
+
+## Poner en marcha
+
+### 1. Supabase
+
+1. Crea un proyecto en [supabase.com](https://supabase.com).
+2. En **SQL Editor**, pega y ejecuta `supabase/migrations/0001_init.sql`.
+3. Abre `supabase/seed.sql`, cambia `tu-correo@ejemplo.com` por los correos del equipo y ejecútalo. Así se crean los 6 sabores y los ingredientes básicos.
+4. En **Authentication > Users**, crea el usuario de cada persona (correo y contraseña).
+5. En **Authentication > Sign In / Providers**, desactiva "Allow new users to sign up". Así nadie más puede crear una cuenta. Igual, solo los correos de la tabla `members` pueden ver los datos.
+
+### 2. En tu computador
 
 ```bash
+cp .env.example .env.local   # y pega la URL y la publishable key del proyecto
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Abre http://localhost:3000.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 3. Vercel
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1. Sube el repositorio a GitHub.
+2. En [vercel.com](https://vercel.com), importa el repositorio.
+3. Agrega las variables `SUPABASE_URL` y `SUPABASE_PUBLISHABLE_KEY`.
+4. Despliega. Cada `git push` a `main` publica una versión nueva.
 
-## Learn More
+### Instalar en el celular
 
-To learn more about Next.js, take a look at the following resources:
+Abre la URL de Vercel en el celular:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- **Android (Chrome):** menú ⋮ > *Instalar app*.
+- **iPhone (Safari):** compartir > *Agregar a inicio*.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Para agregar a alguien al equipo
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. En SQL Editor: `insert into public.members (email) values ('correo@ejemplo.com');`
+2. Crea su usuario en Authentication > Users.
