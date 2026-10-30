@@ -18,19 +18,17 @@ export default async function OrderPage({ params }: PageProps<"/pedidos/[id]">) 
 
   return (
     <>
-      <div className="flex items-center gap-3">
-        <div className="min-w-0 grow">
-          <PageHeader title={order.customer_name} back="/pedidos" />
-        </div>
-        <span className={`chip shrink-0 ${delivered ? "bg-[#E3F1E4] text-[#1E5A2B]" : "bg-poco text-choco"}`}>
+      <PageHeader title={order.customer_name} back="/pedidos" />
+      <div className="-mt-2 flex flex-wrap items-center gap-2 pl-14">
+        <span className={`chip py-1 ${delivered ? "bg-[#E3F1E4] text-[#1E5A2B]" : "bg-poco text-choco"}`}>
           {delivered ? "Entregado" : "Pendiente"}
         </span>
+        {order.due_at && (
+          <span className="text-sm text-suave">
+            {formatDayLabel(order.due_at)} · {formatTime(order.due_at)}
+          </span>
+        )}
       </div>
-      {order.due_at && (
-        <p className="-mt-2 pl-14 text-sm text-suave">
-          {formatDayLabel(order.due_at)} · {formatTime(order.due_at)}
-        </p>
-      )}
 
       <div className="tarjeta flex flex-col px-3.5 pt-1.5 pb-3">
         {order.order_items.map((item, index) => (

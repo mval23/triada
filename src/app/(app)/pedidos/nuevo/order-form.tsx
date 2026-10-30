@@ -45,7 +45,7 @@ export function OrderForm({
           </label>
           <label className="block">
             <span className="etiqueta">Hora</span>
-            <input name="due_time" type="time" className="campo" />
+            <input name="due_time" type="time" defaultValue="12:00" className="campo" />
           </label>
         </div>
       </div>

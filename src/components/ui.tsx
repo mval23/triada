@@ -17,7 +17,7 @@ export function PageHeader({ title, action, back }: { title: string; action?: Re
             <BackIcon />
           </Link>
         )}
-        <h1 className="titulo truncate">{title}</h1>
+        <h1 className="titulo break-words">{title}</h1>
       </div>
       {action}
     </header>
